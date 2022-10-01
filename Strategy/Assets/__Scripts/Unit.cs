@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    Animator animator;
+
     private Vector3 targetPosition;
     private float stoppingDistance = 0.1f;
+
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     private void Update()
     {
@@ -14,6 +21,14 @@ public class Unit : MonoBehaviour
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             float moveSpeed = 4f;
             transform.position += moveDirection * Time.deltaTime * moveSpeed;
+
+            float rotationSpeed = 10f;
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
+            animator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
         }
 
         if (Input.GetMouseButtonDown(0))
