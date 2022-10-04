@@ -11,6 +11,7 @@ public class MoveAction : BaseAction
     private Vector3 targetPosition;
 
     [SerializeField] int maxMoveDistance = 4;
+    [SerializeField] string actionName = "Move";
 
     protected override void Awake()
     {
@@ -79,5 +80,10 @@ public class MoveAction : BaseAction
         }
 
         return validGridPositionList;
+    }
+
+    public override string GetActionName()
+    {
+        return actionName;
     }
 }

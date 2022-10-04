@@ -6,6 +6,7 @@ using System;
 public class SpinAction : BaseAction
 {
     private float totalSpinAmount;
+    [SerializeField] string actionName = "Spin";
 
     private void Update()
     {
@@ -27,5 +28,10 @@ public class SpinAction : BaseAction
         this.onActionComplete = onActionComplete;
         isActive = true;
         totalSpinAmount = 0;
+    }
+
+    public override string GetActionName()
+    {
+        return actionName;
     }
 }
