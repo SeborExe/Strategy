@@ -7,6 +7,7 @@ public class SpinAction : BaseAction
 {
     private float totalSpinAmount;
     [SerializeField] string actionName = "Spin";
+    [SerializeField] int actionPointsCost = 2;
 
     private void Update()
     {
@@ -40,5 +41,10 @@ public class SpinAction : BaseAction
         GridPosition unitGridPosition = unit.GetGridPosition();
 
         return new List<GridPosition> { unitGridPosition };
+    }
+
+    public override int GetActionPointsCost()
+    {
+        return actionPointsCost;
     }
 }

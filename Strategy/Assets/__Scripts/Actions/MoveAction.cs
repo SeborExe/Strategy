@@ -12,6 +12,7 @@ public class MoveAction : BaseAction
 
     [SerializeField] int maxMoveDistance = 4;
     [SerializeField] string actionName = "Move";
+    [SerializeField] int actionPointsCost = 2;
 
     protected override void Awake()
     {
@@ -79,5 +80,10 @@ public class MoveAction : BaseAction
     public override string GetActionName()
     {
         return actionName;
+    }
+
+    public override int GetActionPointsCost()
+    {
+        return actionPointsCost;
     }
 }

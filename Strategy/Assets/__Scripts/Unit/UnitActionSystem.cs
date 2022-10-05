@@ -16,6 +16,8 @@ public class UnitActionSystem : MonoBehaviour
 
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler OnSelectedActionChanged;
+    public event EventHandler OnActionStarted;
+    public event EventHandler<bool> OnBusyChanged;
 
     private void Awake()
     {
@@ -53,8 +55,13 @@ public class UnitActionSystem : MonoBehaviour
 
             if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                SetBusy();
-                selectedAction.TakeAction(mouseGridPosition, CleraBusy);
+                if (selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
+                {
+                    SetBusy();
+                    selectedAction.TakeAction(mouseGridPosition, CleraBusy);
+
+                    OnActionStarted?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
     }
@@ -85,11 +92,15 @@ public class UnitActionSystem : MonoBehaviour
     private void SetBusy()
     {
         isBusy = true;
+
+        OnBusyChanged?.Invoke(this, isBusy);
     }
 
     private void CleraBusy()
     {
         isBusy = false;
+
+        OnBusyChanged?.Invoke(this, isBusy);
     }
 
     private void SetSelectedUnit(Unit unit)
