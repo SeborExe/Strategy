@@ -1,45 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    Animator animator;
-
-    private Vector3 targetPosition;
-    private float stoppingDistance = 0.1f;
     private GridPosition gridPosition;
+    private MoveAction moveAction;
+    private SpinAction spinAction;
+    private BaseAction[] baseActionArray;
+
+    [SerializeField] const int maxActionPoints = 3;
+    private int actionPoints = maxActionPoints;
+
+    public static event EventHandler OnAnyActionPointsChanged;
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
-
-        targetPosition = transform.position;
+        moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();
+        baseActionArray = GetComponents<BaseAction>();
     }
 
     private void Start()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
-        {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-            float moveSpeed = 4f;
-            transform.position += moveDirection * Time.deltaTime * moveSpeed;
-
-            float rotationSpeed = 10f;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
-            animator.SetBool("IsWalking", true);
-        }
-        else
-        {
-            animator.SetBool("IsWalking", false);
-        }
-
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newGridPosition != gridPosition)
         {
@@ -48,8 +40,67 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Move(Vector3 targetPosition)
+    public MoveAction GetMoveAction()
     {
-        this.targetPosition = targetPosition;
+        return moveAction;
+    }
+
+    public SpinAction GetSpinAction()
+    {
+        return spinAction;
+    }
+
+    public GridPosition GetGridPosition()
+    {
+        return gridPosition;
+    }
+
+    public BaseAction[] GetBaseActionArray()
+    {
+        return baseActionArray;
+    }
+
+    public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+    {
+        if (CanSpendActionPointToTakeAction(baseAction))
+        {
+            SpendActionPoints(baseAction.GetActionPointsCost());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool CanSpendActionPointToTakeAction(BaseAction baseAction)
+    {
+        if (actionPoints >= baseAction.GetActionPointsCost())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void SpendActionPoints(int amount)
+    {
+        actionPoints -= amount;
+
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public int GetActionPoints()
+    {
+        return actionPoints;
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        actionPoints = maxActionPoints;
+
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
 }
