@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3342126816545678780}
   - component: {fileID: 4814660962951151172}
   - component: {fileID: 5721556502286796625}
+  - component: {fileID: -1832300084766395095}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -62,7 +63,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f1a2660349b3449b996e0f6fbc82d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionPoints: 3
+  maxActionPoints: 3
+  isEnemy: 0
 --- !u!114 &4814660962951151172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +94,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Spin
   actionPointsCost: 2
+--- !u!114 &-1832300084766395095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3342126816545678770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06890715690d6154ca134d6a24c64c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6129318497266225837
 GameObject:
   m_ObjectHideFlags: 0
