@@ -25,12 +25,12 @@ public class Unit : MonoBehaviour
         spinAction = GetComponent<SpinAction>();
         healthSystem = GetComponent<HealthSystem>();
         baseActionArray = GetComponents<BaseAction>();
+
+        actionPoints = maxActionPoints;
     }
 
     private void Start()
     {
-        actionPoints = maxActionPoints;
-
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
