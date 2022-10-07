@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5721556502286796625}
   - component: {fileID: -1832300084766395095}
   - component: {fileID: -6517109852831206307}
+  - component: {fileID: -1542619676795251232}
+  - component: {fileID: 4869959042738191590}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -123,6 +125,34 @@ MonoBehaviour:
   bulletProjectilePrefab: {fileID: 3933034304601212896, guid: 42db796f36fdea44584773a5e3926327,
     type: 3}
   shootPointTransform: {fileID: 5628083856194128801}
+--- !u!114 &-1542619676795251232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3342126816545678770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc722592ec6126499c0af75d07adfa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+--- !u!114 &4869959042738191590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3342126816545678770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05c9d6cc8aac704996fd14b27c91702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RagdollPrefab: {fileID: 3342126816545678771, guid: 83c7f74f3cb466d4b93b627779f11996,
+    type: 3}
+  originalRootBone: {fileID: 3346238833883410972}
 --- !u!1 &3543021177505401641
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +700,12 @@ PrefabInstance:
 --- !u!4 &3345980975360459084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4170833147357194, guid: 2f3e27eecb190e44a9af50723c394274,
+    type: 3}
+  m_PrefabInstance: {fileID: 3342126816599550278}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3346238833883410972 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4966341056781146, guid: 2f3e27eecb190e44a9af50723c394274,
     type: 3}
   m_PrefabInstance: {fileID: 3342126816599550278}
   m_PrefabAsset: {fileID: 0}

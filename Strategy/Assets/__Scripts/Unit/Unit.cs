@@ -6,6 +6,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private GridPosition gridPosition;
+    private HealthSystem healthSystem;
     private MoveAction moveAction;
     private SpinAction spinAction;
     private BaseAction[] baseActionArray;
@@ -22,6 +23,7 @@ public class Unit : MonoBehaviour
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        healthSystem = GetComponent<HealthSystem>();
         baseActionArray = GetComponents<BaseAction>();
     }
 
@@ -33,6 +35,7 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        healthSystem.OnDead += HealSystem_OnDead;
     }
 
     private void Update()
@@ -126,6 +129,12 @@ public class Unit : MonoBehaviour
 
     public void Damage(int amount)
     {
+        healthSystem.TakeDamage(amount);
+    }
 
+    private void HealSystem_OnDead(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        Destroy(gameObject);
     }
 }
