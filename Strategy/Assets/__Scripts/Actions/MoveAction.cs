@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-    private Animator animator;
-
     private float stoppingDistance = 0.1f;
     private Vector3 targetPosition;
 
@@ -14,11 +12,13 @@ public class MoveAction : BaseAction
     [SerializeField] string actionName = "Move";
     [SerializeField] int actionPointsCost = 2;
 
+    public event Action OnStartMoving;    
+    public event Action OnStopMoving;    
+
     protected override void Awake()
     {
         base.Awake();
 
-        animator = GetComponentInChildren<Animator>();
         targetPosition = transform.position;
     }
 
@@ -32,14 +32,11 @@ public class MoveAction : BaseAction
         {
             float moveSpeed = 4f;
             transform.position += moveDirection * Time.deltaTime * moveSpeed;
-
-            animator.SetBool("IsWalking", true);
         }
         else
         {
-            animator.SetBool("IsWalking", false);
-            isActive = false;
-            onActionComplete();
+            OnStopMoving?.Invoke();
+            ActionComplete();
         }
 
         float rotationSpeed = 10f;
@@ -48,9 +45,9 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        this.onActionComplete = onActionComplete;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        isActive = true;
+        OnStartMoving?.Invoke();
+        ActionStart(onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -85,5 +82,16 @@ public class MoveAction : BaseAction
     public override int GetActionPointsCost()
     {
         return actionPointsCost;
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        int targetCountAtGridPosition = unit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = targetCountAtGridPosition * 10
+        };
     }
 }
