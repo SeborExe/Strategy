@@ -5,20 +5,20 @@ using TMPro;
 
 public class GridDebugObject : MonoBehaviour
 {
-    private GridObject gridObject;
-    TMP_Text gridText;
+    private object gridObject;
+    [SerializeField] TMP_Text gridText;
 
     private void Awake()
     {
         gridText = GetComponentInChildren<TMP_Text>();
     }
 
-    public void SetGridObject(GridObject gridObject)
+    public  virtual void SetGridObject(object gridObject)
     {
         this.gridObject = gridObject;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         gridText.text = gridObject.ToString();
     }
