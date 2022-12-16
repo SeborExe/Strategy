@@ -15,6 +15,8 @@ public class Unit : MonoBehaviour
     [Header("Player or Enemy")] 
     [SerializeField] bool isEnemy = false;
 
+    [SerializeField] private bool isAlive = true;
+
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
@@ -141,6 +143,7 @@ public class Unit : MonoBehaviour
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         Destroy(gameObject);
+        isAlive = false;
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
@@ -148,5 +151,10 @@ public class Unit : MonoBehaviour
     public float GetHealthNormalized()
     {
         return healthSystem.GetHealthNormalized();
+    }
+
+    public bool IsAlive()
+    {
+        return isAlive;
     }
 }
