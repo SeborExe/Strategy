@@ -59,6 +59,7 @@ public class UnitActionSystemUI : MonoBehaviour
     private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
     {
         UpdateSelectedVisual();
+        UpdateActionPoints();
     }
 
     private void UnitActionSystem_OnActionStarted(object sender, EventArgs e)
@@ -76,8 +77,8 @@ public class UnitActionSystemUI : MonoBehaviour
 
     private void UpdateActionPoints()
     {
-        Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-        actionPointsText.text = $"Action Points: {selectedUnit.GetActionPoints()}";
+        int selectedActionPoints = UnitActionSystem.Instance.GetSelectedAction().GetActionPointsCost();
+        actionPointsText.text = $"Action Points: {selectedActionPoints}";
     }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)

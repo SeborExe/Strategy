@@ -10,6 +10,8 @@ public class ShootAction : BaseAction
     private Unit targetUnit;
 
     [SerializeField] int maxShootDistance = 6;
+    [SerializeField] string actionName = "Shoot";
+    [SerializeField] int actionPointsCost = 2;
     [SerializeField] private LayerMask obstacleLayerMask;
 
     public event EventHandler<OnShootEventArgs> OnShoot;
@@ -92,12 +94,12 @@ public class ShootAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Shoot";
+        return actionName;
     }
 
     public override int GetActionPointsCost()
     {
-        return 2;
+        return actionPointsCost;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
